@@ -1,0 +1,53 @@
+verbose      = 2
+
+format       = 'pksc'
+
+folder       = './'
+inputfile    = '/home/dongwooc/scratchspace/1140Mpc_n4096_nb28_nt20_merge.pksc.13579' # On Dongwoo's authority, z = 2.4 – 3.4 for this file
+mapfile      = '217GHz_560Mpc_13579.fits' 
+
+flat         = 1            #0 for all sky, 1 for flatsky
+nu_obs       = 217
+nside        = 1024
+fov	     = 4.8
+numdens      = 0            #0 for cib, 1 for optical 
+
+hod          = 'shang'      #"shang" for cib, "manera" for optical 
+LM           = 'Planck2013' #'Planck2015'
+
+min_redshift = 0.0
+max_redshift = 3.5
+min_mass     = 2.5e10 
+box_size     = 20000
+
+H0           = 70
+omegab       = 0.043
+omegac       = 0.207
+omegal       = 0.75
+scalar_index = 0.96
+sigma8       = 0.8
+
+shang_L0     = 10.**(-1.9)	
+
+shang_Td     = 24.4          #Planck 2015 values
+shang_beta   = 1.75
+shang_eta    = 3.2           #same as delta_CIB in paper
+shang_I0     = 46
+
+#shang_Td     = 20           # old values
+#shang_beta   = 1.4
+#shang_eta    = 2.0
+#shang_I0     = 46
+shang_Mmin   = 1e10
+shang_Msmin  = 1e11
+shang_Mpeak  = 10.**12.2
+shang_sigmaM = 0.4
+shang_nc2ns  = 10
+
+#Satellite mass function parameters
+M1           = 1e+14
+M0           = 11939881044642.73
+sigma_logM   = 0.569
+logM_min     = 13.09
+alpha        = 1.0127
+mass_type    = 'nonlog'

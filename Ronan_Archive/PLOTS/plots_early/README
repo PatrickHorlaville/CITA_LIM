@@ -1,0 +1,16 @@
+SUMMARY OF PLOTS IN THIS DIRECTORY
+
+These plots map the emission of CO using different slices in the simulated CO data cube for a 9.3X9.3 degree slice of the sky with redshift 
+2.4-3.4. Plots marked "2D" show a 2-Dimensional slice of the data space, with the Z-axis representing CO emission intensity. 1D plots show 
+the same basic thing, but taking a slice along only one axis and with the Y axis representing the CO emission. The *_SLICE part of the name 
+indicates the axis of the slice, ex. Z_SLICE looks down the redshift axis. In the 2D plots, the slices are SKY (looking down the redshift 
+axis at a slice on the sky), FX (looking down the X axis at the field) and FY (the same for Y). NOVEL/VEL indicates whether or not velocity
+correction has been enacted (VEL has, NOVEL has not). The BOTH images plot both VEL and NOVEL along a given slice. the IMSHOW plots are
+essentially the same as the 2D plots, but instead of representing the data as topography, it is done as a heatmap, which generally has better
+resolution than the 3D representation's color map. The file with "log" in the name is logscaled on Y, but with a small number added to avoid 
+discontinuities for Y=0
+
+This is all in an attempt to familiarize myself with the data, which is a simulated distribution of CO. CO is a tracer of molecular gas, 
+meaning that it can trace increases of density in the intestellar medium associated with galaxies, and, in some cases, star formation.
+
+

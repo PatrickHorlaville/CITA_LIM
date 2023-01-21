@@ -40,6 +40,8 @@ def Mhalo_to_Lco(halos, model, coeffs):
         sys.exit('\n\n\tYour model, '+model+', does not seem to exist\n\t\tPlease check src/halos_to_luminosity.py to add it\n\n')
 '''
 
+
+
 def Mhalo_to_Lline(halos, model_type, model_name, model_par, sigma_scatter=0.,
                    scatter_seed=None,L=None,dndL=None,randomize_halos=False):
     """
@@ -155,7 +157,7 @@ def Mhalo_to_Lco_Padmanabhan(halos, coeffs):
     Lco    = 4.9e-5 * Lprime
 
     return Lco
-
+'''
 def get_sfr_table():
     """
     Load SFR Table 
@@ -179,6 +181,42 @@ def get_sfr_table():
     sfr_interp_tab = sp.interpolate.RectBivariateSpline(dat_logm, dat_logzp1, dat_sfr,
                                                         kx=1, ky=1)
     return sfr_interp_tab
+'''
+
+def get_sfr_table(bad_extrapolation=False):
+    """
+    LOAD SFR TABLE from Behroozi+13a,b
+    Columns are: z+1, logmass, logsfr, logstellarmass
+    Intermediate processing of tabulated data      
+    with option to extrapolate to unphysical masses
+    """
+
+    tablepath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    tablepath+= '/tables/sfr_behroozi_release.dat'
+    dat_zp1, dat_logm, dat_logsfr, _ = np.loadtxt(tablepath, unpack=True)
+
+    dat_logzp1 = np.log10(dat_zp1)
+    dat_sfr    = 10.**dat_logsfr
+
+    # Reshape arrays
+    dat_logzp1  = np.unique(dat_logzp1)    # log(z), 1D 
+    dat_logm    = np.unique(dat_logm)    # log(Mhalo), 1D        
+    dat_sfr     = np.reshape(dat_sfr, (dat_logm.size, dat_logzp1.size))
+    dat_logsfr  = np.reshape(dat_logsfr, dat_sfr.shape)
+
+    # optional extrapolation to masses excluded in Behroozi+13
+    if bad_extrapolation:
+        from scipy.interpolate import SmoothBivariateSpline
+        dat_logzp1_,dat_logm_ = np.meshgrid(dat_logzp1,dat_logm)
+        badspl = SmoothBivariateSpline(dat_logzp1_[-1000<(dat_logsfr)],dat_logm_[-1000<(dat_logsfr)],dat_logsfr[-1000<(dat_logsfr)],kx=4,ky=4)
+        dat_sfr[dat_logsfr==-1000.] = 10**badspl(dat_logzp1,dat_logm).T[dat_logsfr==-1000.]
+
+    # Get interpolated SFR value(s)    
+    sfr_interp_tab = sp.interpolate.RectBivariateSpline(
+                            dat_logm, dat_logzp1, dat_sfr,
+                            kx=1, ky=1)
+    return sfr_interp_tab
+
 
 
 def add_log_normal_scatter(data,dex,pwr=1.0,seed=None):

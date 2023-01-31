@@ -148,7 +148,7 @@ Lichen_v2 = dict(model_type = 'ML',
                          Nfeeds = 120,
                          beam_FWHM = 48*u.arcsec,
                          Delta_nu = 60*u.GHz, # was 20 before, why?
-                         dnu = 1.13*u.GHz,
+                         dnu = 1.11*u.GHz,
                          tobs = 2000*u.hr,
                          Omega_field = 4*u.deg**2,
                          do_Jysr = True,

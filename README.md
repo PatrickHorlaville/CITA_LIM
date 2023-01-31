@@ -1,2 +1,2 @@
-# project_test
+# test
 Test for git remote 

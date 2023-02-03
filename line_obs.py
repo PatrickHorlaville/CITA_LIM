@@ -257,11 +257,9 @@ class LineObs(LineModel):
         if self.do_Jysr:
             Omega_beam = np.pi*self.beam_FWHM**2/(4.*np.log(2))
             #Omega_beam = self.beam_width**2
-            return ((self.Tsys_NEFD/Omega_beam)
-                    .to(u.Jy*u.s**(1./2)/u.sr))
+            return ((self.Tsys_NEFD/Omega_beam)/np.sqrt(self.tpix*self.Nfeeds)).to(u.Jy/u.sr)
         else:
-            return ((self.Tsys_NEFD/np.sqrt(self.Nfeeds*self.dnu*self.tpix))
-                    .to(u.uK))
+            return (self.Tsys_NEFD/np.sqrt(self.Nfeeds*self.dnu*self.tpix)).to(u.uK)
     
     @cached_property    
     def Pnoise(self):
@@ -269,7 +267,7 @@ class LineObs(LineModel):
         Noise power spectrum amplitude
         '''
         if self.do_Jysr:
-            Pn = self.sigma_N**2*self.Vvox/(self.tpix*self.Nfeeds)
+            Pn = self.sigma_N**2*self.Vvox
             return Pn.to(self.Pk.unit)
         else:
             return self.sigma_N**2*self.Vvox

@@ -257,8 +257,8 @@ class LimLam(LineObs):
         '''
         map = self.maps
         sm_map = gaussian_filter(map, [1,1,0])
-        noise_sigma  = self.sigma_N/np.sqrt(self.tpix*self.Nfeeds)
-        noise_map    = np.random.normal(0, noise_sigma.to(u.Jy/u.sr).value, map.shape)
+        noise_sigma  = self.sigma_N
+        noise_map    = np.random.normal(0, noise_sigma.to(u.Jy/u.sr, equivalencies=u.brightness_temperature(self.nuObs)).value, map.shape)
         # print(noise_sigma.to(u.Jy/u.sr).value)
         sm_noise_map = sm_map + noise_map
         return sm_noise_map

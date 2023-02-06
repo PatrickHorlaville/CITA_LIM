@@ -60,7 +60,7 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   model_par = {'alpha':1.17,'beta':0.21,'dMF':1.0,
                                'BehrooziFile':'sfr_release.dat','sig_SFR':0.0},
                   nu = 115.27*u.GHz,
-                  nuObs = 15*u.GHz,
+                  nuObs = 30*u.GHz,
                   Mmin = 1e9*u.Msun, # Set high to compare to incomplete sims
                   Mmax = 1e15*u.Msun,                    
                   nM = 5000,

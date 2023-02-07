@@ -1,15 +1,3 @@
-# PHYS512: Final Project
+# Line Intensity Mapping at CITA
 
-This is the repository for my final project for the class PHYS512: Computational Physics with Applications, delivered in the Fall 2022 by prof. Jon Sievers at McGill, with TAs Rigel Zifkin, Marcus Merryfield and Daniel Coelho.
-
-Much of the code is drawn from an external package called `limlam_mocker` that is present in this repository along other utility files that populate the directory. My contribution is detailed in my notebook.
-
-## The Most Important Files
-
-- The entirety of the project is presented in `project_notebook.ipynb`. There is a context and introduction sections, and the analysis of the project is explicitly presented.
-
-- The python files relevant to the project are `stacking.py`, `stacking_params.py` and `stacking_utils.py`. Their use are explained in the `Executables` section of the notebook.
-
-- The gif result of the analysis is `stacked_map.gif` and is in the `result_files` folder. The snapshots used to make the gif are in the `gif_snaps` folder.
-
-- The other files in the directory have been of use since last summer for the various endeavours of my research project. They are not part of my project for the class and as such, can be ignored.
+This is the repository for my working space at CITA on line intensity mapping. My project is using the `limlam_mocker` package (written by Dr. George Stein and Dr. Dongwoo Chung in 2018), more precisely a modified version by Dr. Patrick Breysse and his supervisee Clara Chung written in 2020 for Clara Chung's SURP project. 

@@ -78,9 +78,12 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   Omega_field = 4*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = '/home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz',
+                  catalogue_file = '/mnt/scratch-lustre/njcarlson/peak-patch-runs/23.02.05_SBsuite/ng0/cenz6500Mpc/output/1000Mpc_n580_nb40_nt2_merge.npz',
                   )
-      
+
+# /home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz
+
+
 # Silva et al. (2015) CII model m2 with CCATp parameters at z~6
 Silva_m1_z6_CCATp = dict(model_type = 'ML',
                          model_name = 'SilvaCII',

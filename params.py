@@ -73,12 +73,12 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   Nfeeds = 19,
                   beam_FWHM = 0.8*u.arcmin,
                   Delta_nu = 4*u.GHz,
-                  dnu = 150*u.MHz,
+                  dnu = 75*u.MHz,
                   tobs = 1500*u.hr,
                   Omega_field = 4*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = '/mnt/scratch-lustre/njcarlson/peak-patch-runs/23.02.05_SBsuite/ng0/cenz6500Mpc/output/1000Mpc_n580_nb40_nt2_merge.npz',
+                  catalogue_file = '/home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz',
                   )
 
 # /home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz

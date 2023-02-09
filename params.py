@@ -60,7 +60,7 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   model_par = {'alpha':1.17,'beta':0.21,'dMF':1.0,
                                'BehrooziFile':'sfr_release.dat','sig_SFR':0.0},
                   nu = 115.27*u.GHz,
-                  nuObs = 15*u.GHz,
+                  nuObs = 30*u.GHz,
                   Mmin = 1e9*u.Msun, # Set high to compare to incomplete sims
                   Mmax = 1e15*u.Msun,                    
                   nM = 5000,
@@ -72,17 +72,19 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   Tsys_NEFD = 44*u.K,
                   Nfeeds = 19,
                   beam_FWHM = 0.8*u.arcmin,
-                  Delta_nu = 4*u.GHz,
-                  dnu = 75*u.MHz,
+                  Delta_nu = 7.5*u.GHz,
+                  dnu = 300*u.MHz,
                   tobs = 1500*u.hr,
-                  Omega_field = 4*u.deg**2,
+                  Omega_field = 81*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = '/home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz',
+                  catalogue_file = 'nate_sims/ngauss_instab/ngauss_instab_lightcone.npz',
                   )
 
 # /home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz
-
+# Gaussian lightcone: nate_sims/gaussian/gauss_lightcone.npz
+# Non-Gaussian Instability lightcone: nate_sims/ngauss_instab/ngauss_instab_lightcone.npz
+# Non-Gaussian Power Spectrum lightncone: nate_sims/ngauss_pspec/ngauss_pspec_lightcone.npz
 
 # Silva et al. (2015) CII model m2 with CCATp parameters at z~6
 Silva_m1_z6_CCATp = dict(model_type = 'ML',

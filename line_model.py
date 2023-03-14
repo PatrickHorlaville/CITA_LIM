@@ -284,6 +284,7 @@ class LineModel(object):
             return np.linspace(self.kmin.value,self.kmax.value,self.nk+1)*self.kmin.unit
         else:
             return ulogspace(self.kmin,self.kmax,self.nk+1)
+
     
     @cached_property
     def k(self):

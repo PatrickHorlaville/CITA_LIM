@@ -78,8 +78,39 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   Omega_field = 81*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = 'nate_sims/ngauss_instab/ngauss_instab_lightcone.npz',
+                  catalogue_file = 'nate_sims/gaussian/gauss_lightcone.npz',
                   )
+
+TonyLi_PhII = dict(cosmo_model = 'Planck15',
+                  model_type = 'ML',
+                  model_name = 'TonyLi',
+                  model_par = {'alpha':1.17,'beta':0.21,'dMF':1.0,
+                               'BehrooziFile':'sfr_release.dat','sig_SFR':0.0},
+                  nu = 115.27*u.GHz,
+                  nuObs = 30*u.GHz,
+                  Mmin = 1e9*u.Msun, # Set high to compare to incomplete sims
+                  Mmax = 1e15*u.Msun,
+                  nM = 5000,
+                  nL = 5000,
+                  kmin = 1e-2/u.Mpc,
+                  kmax = 7./u.Mpc,
+                  nk = 100,
+                  sigma_scatter = 0.0,
+                  Tsys_NEFD = 44*u.K,
+                  Nfeeds = 19,
+                  beam_FWHM = 0.8*u.arcmin,
+                  Delta_nu = 7.5*u.GHz,
+                  dnu = 300*u.MHz,
+                  tobs = 1500*u.hr,
+                  Omega_field = 81*u.deg**2,
+                  do_Jysr = False,
+                  Nfield = 4,
+                  catalogue_file = 'nate_sims/ngauss/ngauss_lightcone.npz',
+                  )
+
+
+
+
 
 # /home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz
 # Gaussian lightcone: nate_sims/gaussian/gauss_lightcone.npz

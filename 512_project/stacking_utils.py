@@ -10,7 +10,7 @@ from scipy.ndimage import gaussian_filter
 
 
 
-def halo_centpix(CII_map, halo_xpos, halo_ypos):
+def halo_centpix(lim_obj, halo_xpos, halo_ypos, halo_zpos):
 
     '''
     Parameters
@@ -35,23 +35,28 @@ def halo_centpix(CII_map, halo_xpos, halo_ypos):
 
     '''
 
-    halo_centpix_x = [0 for i in range(len(halo_xpos))]
-    halo_centpix_y = [0 for i in range(len(halo_ypos))]
+    map_xs = lim_obj.mapinst.pix_bincents_x
+    map_ys = lim_obj.mapinst.pix_bincents_y
+    map_zs = (lim_obj.mapinst.nu_rest/lim_obj.mapinst.nu_bincents) - 1
+    
+    pixcents_x_mesh, halo_xs_mesh = np.meshgrid(map_xs, halo_xpos)
+    halo_centpix_x = np.argmin(np.abs(halo_xs_mesh - pixcents_x_mesh), axis=1)
+    
+    pixcents_y_mesh, halo_ys_mesh = np.meshgrid(map_ys, halo_ypos)
+    halo_centpix_y = np.argmin(np.abs(halo_ys_mesh - pixcents_y_mesh), axis=1)
+    
+    pixcents_z_mesh, halo_zs_mesh = np.meshgrid(map_zs, halo_zpos)
+    halo_centpix_z = np.argmin(np.abs(halo_zs_mesh - pixcents_z_mesh), axis=1)
+    
+    return halo_centpix_x, halo_centpix_y, halo_centpix_z
 
-    for i in range(len(halo_xpos)):
-        halo_centpix_x[i] = np.argmin(np.abs(halo_xpos[i] - CII_map.mapinst.pix_bincents_x))
-    for i in range(len(halo_ypos)):
-        halo_centpix_y[i] = np.argmin(np.abs(halo_ypos[i] - CII_map.mapinst.pix_bincents_y))
-
-    return halo_centpix_x, halo_centpix_y
 
 
 
 
 
 
-
-def halo_map(CII_map, n, halo_xpos, halo_ypos):
+def halo_map(lim_obj, n, halo_xpos, halo_ypos):
 
     '''
     Parameters
@@ -80,7 +85,7 @@ def halo_map(CII_map, n, halo_xpos, halo_ypos):
     halo_mapx = [0 for i in range(len(halo_xpos))]
     halo_mapy = [0 for i in range(len(halo_ypos))]
 
-    halo_centpix_x, halo_centpix_y = halo_centpix(CII_map, halo_xpos, halo_ypos)
+    halo_centpix_x, halo_centpix_y, _ = halo_centpix(lim_obj, halo_xpos, halo_ypos)
 
     for i in range(len(halo_xpos)):
         halo_mapx[i] = np.linspace(halo_centpix_x[i] - (n - 1)/2, halo_centpix_x[i] + (n - 1)/2, n)
@@ -92,14 +97,14 @@ def halo_map(CII_map, n, halo_xpos, halo_ypos):
 
 
 
-def lum(CII_map, ind, n, halo_xpos, halo_ypos):
+def lum(lim_obj, ind, n, halo_xpos, halo_ypos, halo_zpos):
     
     '''
     Parameters
     ----------
     
-    CII_map: lim_object
-             The `lim` object of the generated [CII] simulation
+    lim_obj: lim_object
+             The `lim` object of the generated line simulation
     
     n: int
        Size of the stacked map
@@ -114,24 +119,27 @@ def lum(CII_map, ind, n, halo_xpos, halo_ypos):
     -------
     
     lum: array_like
-         n by n by n_halo list of the [CII] luminosities of all the halo maps to be averaged in order to retrieve the stacked map    
+         n by n by n_halo list of the luminosities of all the halo maps to be averaged in order to retrieve the stacked map    
     '''
     
-    halo_mapx, halo_mapy = halo_map(CII_map, n, halo_xpos, halo_ypos)
+    halo_mapx, halo_mapy = halo_map(lim_obj, n, halo_xpos, halo_ypos, halo_zpos)
     
-    npix_x, npix_y = CII_map.mapinst.npix_x + 1, CII_map.mapinst.npix_y + 1
+    npix_x, npix_y = lim_obj.mapinst.npix_x + 1, lim_obj.mapinst.npix_y + 1
     n_halos = len(halo_xpos)
 
-    lum_noisy   = [[[[] for i in range(n)] for j in range(n)] for k in range(n_halos)]
-    lum_nonoise = [[[[] for i in range(n)] for j in range(n)] for k in range(n_halos)]
+    lum_pure = [[[[] for i in range(n)] for j in range(n)] for k in range(n_halos)]
+    lum_noisy= [[[[] for i in range(n)] for j in range(n)] for k in range(n_halos)]
 
+    pure_map = lim_obj.maps.value
+    noisy_map = lim_obj.noise_added_map
+    
     for i in range(n_halos):
         for j in range(len(halo_mapx[i])):
             for k in range(len(halo_mapy[i])):
                 if int(halo_mapx[i][j]) < npix_x:
                     if int(halo_mapy[i][k]) < npix_y:
-                            lum_noisy[i][j][k]   = CII_map.noise_added_map[int(halo_mapx[i][j]), int(halo_mapy[i][k]), ind]
-                            lum_nonoise[i][j][k] = (CII_map.maps[int(halo_mapx[i][j]), int(halo_mapy[i][k]), ind]).value
+                            lum_pure[i][j][k] = pure_map[int(halo_mapx[i][j]), int(halo_mapy[i][k]), ind]
+                            lum_noisy[i][j][k]= noisy_map[int(halo_mapx[i][j]), int(halo_mapy[i][k]), ind]
                     else:
                         lum_noisy[i][j][k]   = np.nan
                         lum_nonoise[i][j][k] = np.nan
@@ -139,7 +147,7 @@ def lum(CII_map, ind, n, halo_xpos, halo_ypos):
                     lum_noisy[i][j][k]   = np.nan
                     lum_nonoise[i][j][k] = np.nan
         
-    return lum_noisy, lum_nonoise
+    return lum_pure, lum_noisy
 
 
 

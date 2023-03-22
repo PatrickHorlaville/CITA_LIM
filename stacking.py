@@ -19,9 +19,9 @@ pure_map, noisy_map = lum(lim_sim, n, halo_xs, halo_ys, halo_zs)
 pure_stack, noisy_stack = np.nanmean(pure_map, axis = 0), np.nanmean(noisy_map, axis = 0)
 
 
-fig , axes = plt.subplots(nrows = 1, ncols = 2, figsize = (20, 8))
+fig , axes = plt.subplots(nrows = 2, ncols = 1, figsize = (8, 15))
 
-plt.subplot(121)
+plt.subplot(211)
 plt.imshow(pure_stack, cmap = 'CMRmap', extent = [-0.65, 0.65, -0.65, 0.65])
 plt.title(r'$Pure\ Signal\ Stacked\ Map$', math_fontfamily = 'dejavuserif')
 plt.xlabel(r'$RA$', math_fontfamily='dejavuserif')
@@ -33,16 +33,17 @@ font = matplotlib.font_manager.FontProperties(math_fontfamily='dejavuserif', sty
 text1.set_font_properties(font)
 
 
-plt.subplot(122)
+plt.subplot(212)
 plt.imshow(noisy_stack, cmap = 'CMRmap', extent = [-0.65, 0.65, -0.65, 0.65])
 plt.title(r'$Forecast\ Stacked\ Map$', math_fontfamily = 'dejavuserif')
 plt.xlabel(r'$RA$', math_fontfamily='dejavuserif')
+plt.ylabel(r'$DEC$', math_fontfamily='dejavuserif')
 cb2 = plt.colorbar(label = r'$Jy/sr$')
 ax2 = cb2.ax
 text2 = ax2.yaxis.label
 font = matplotlib.font_manager.FontProperties(math_fontfamily='dejavuserif', style='italic', size=16)
 text2.set_font_properties(font)
 
-plt.savefig('Stacking/stacking_sim.png', bbox_inches = "tight")
+plt.savefig('Stacking/stacking_simv2.png', bbox_inches = "tight")
 plt.show()
 

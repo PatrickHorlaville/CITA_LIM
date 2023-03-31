@@ -426,12 +426,12 @@ def LichenCII_v3(Mvec, MLpar, z):
     # In solar metallicity, log(Z/Z_sol) = 0 when 12 + log(O/H) = 8.69, so 'real'Z = 10**('pseudo'Z - 8.69):
 
     def metal(ps_m):
-        return 10**(ps_m - 8.69)
+        return 10**(ps_m - 8.779)
 
     halo_psZ = ps_metal(stellar_mass, halo_M0)
     halo_Z = metal(halo_psZ)
     
-    Z_scatter = add_log_normal_scatter(halo_Z, zdex, 23)
+    Z_scatter = add_log_normal_scatter(halo_Z, zdex, seed = 23)
 
     def MH1_fit(M, M_0, M_min, alphaMH1):
         x = M/M_min

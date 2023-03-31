@@ -354,6 +354,95 @@ def LichenCII_v2(Mvec, MLpar, z):
     return L_CII
 
 
+def LichenCII_v3(Mvec, MLpar, z):
+
+    M0 = MLpar['M0'] * u.Msun
+    Mmin = MLpar['Mmin'] * u.Msun
+    alpha_MH1 = MLpar['alpha_MH1']
+    alpha_LCII = MLpar['alpha_LCII']
+    zdex = MLpar['zdex']
+   
+    # First, load the SFR for each halo following the prescription from the TonyLi model and using the data from the parameter 'BehrooziFile'.
+
+    BehrooziFile = MLpar['BehrooziFile']
+
+    # Read and interpolate Behroozi SFR(M) data
+    x = np.loadtxt(BehrooziFile)
+    zb = np.unique(x[:,0])-1.
+    logMb = np.unique(x[:,1])
+    logSFRb = x[:,2].reshape(137,122,order='F')
+
+    logSFR_interp = interp2d(logMb,zb,logSFRb,bounds_error=False,fill_value=0.)
+
+    # Compute SFR(M) in Msun/yr
+    logM = np.log10((Mvec.to(u.Msun)).value)
+    if np.array(z).size>1:
+        SFR = np.zeros(logM.size)
+        for ii in range(0,logM.size):
+            SFR[ii] = 10.**logSFR_interp(logM[ii],z[ii])
+    else:
+        SFR = 10.**logSFR_interp(logM,z)
+
+    # Then, we compute the stellar mass for each halo using the prescription by Behroozi+2013 [code snippet from DTC]:
+
+    a = lambda z:1/(1.+z)
+    # Behroozi et al 2013a parameters
+    nu = lambda z:np.exp(-4*a(z)**2)
+    log10_eps = lambda z:-1.777-0.006*(a(z)-1)*nu(z)-0.119*(a(z)-1)
+    log10_M1 = lambda z:11.514+(-1.793*(a(z)-1)-0.251*z)*nu(z)
+    alpha = lambda z:-1.412+0.731*(a(z)-1)*nu(z)
+    delta = lambda z:3.508+(2.608*(a(z)-1)-0.043*z)*nu(z)
+    gamma = lambda z:0.316+(1.319*(a(z)-1)+0.279*z)*nu(z)
+    f = lambda x,z:-np.log10(10**(alpha(z)*x)+1)+delta(z)*(np.log10(1+np.exp(x)))**gamma(z)/(1+np.exp(10**(-x)))
+    xi = lambda z:0.218-0.023*(a(z)-1)
+
+    def stellar_m(halo_m,z,scatter=True):
+        sm = 10**(log10_eps(z)+log10_M1(z)+f(np.log10((halo_m/(10**log10_M1(z))).value),z)-f(0,z))
+        if scatter:
+            rand = np.random.lognormal(-0.5*(xi(z)*np.log(10))**2,xi(z)*np.log(10))
+            return sm*rand
+        else:
+            return sm
+
+    stellar_mass = stellar_m(Mvec, z)
+
+    # Then, retrieve metallicity with FMR from Heintz+2021 (from Curti+2020)
+
+    gamma = 0.31
+    beta = 2.1
+    m_0 = 10.11
+    m_1 = 0.56
+    Z_0 = 8.779
+
+    def M_0(sfr):
+        return (10**(m_0))*(sfr**(m_1))
+
+    halo_M0 = M_0(SFR)
+
+    def ps_metal(stellar_m, M_0):
+        return Z_0 - (gamma/beta)*np.log10(1 + (stellar_m/M_0)**(-beta))
+
+    # The ps_metal is the FMR but for the 'pseudo'-metallicity quantity described in Heintz+21; it's not the direct metallicity. It's defined as 12 + log(O/H).
+    # In solar metallicity, log(Z/Z_sol) = 0 when 12 + log(O/H) = 8.69, so 'real'Z = 10**('pseudo'Z - 8.69):
+
+    def metal(ps_m):
+        return 10**(ps_m - 8.69)
+
+    halo_psZ = ps_metal(stellar_mass, halo_M0)
+    halo_Z = metal(halo_psZ)
+    
+    Z_scatter = add_log_normal_scatter(halo_Z, zdex, 23)
+
+    def MH1_fit(M, M_0, M_min, alphaMH1):
+        x = M/M_min
+        return M_0 * ((x)**alphaMH1) * np.exp(-1/((x)**0.35))
+
+    MH1 = MH1_fit(Mvec, M0, Mmin, alpha_MH1)
+
+    L_CII = (alpha_LCII*(MH1.value)*Z_scatter)*u.Lsun
+    
+    return L_CII
+
 
 
 def SilvaCO(Mvec, MLpar, z):

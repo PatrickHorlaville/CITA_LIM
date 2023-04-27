@@ -396,7 +396,7 @@ def LichenCII_v3(Mvec, MLpar, z):
     f = lambda x,z:-np.log10(10**(alpha(z)*x)+1)+delta(z)*(np.log10(1+np.exp(x)))**gamma(z)/(1+np.exp(10**(-x)))
     xi = lambda z:0.218-0.023*(a(z)-1)
 
-    def stellar_m(halo_m,z,scatter=True):
+    def stellar_m(halo_m,z,scatter=False):
         sm = 10**(log10_eps(z)+log10_M1(z)+f(np.log10((halo_m/(10**log10_M1(z))).value),z)-f(0,z))
         if scatter:
             rand = np.random.lognormal(-0.5*(xi(z)*np.log(10))**2,xi(z)*np.log(10))

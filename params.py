@@ -78,7 +78,7 @@ TonyLi_PhI = dict(cosmo_model = 'Planck15',
                   Omega_field = 538*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/gaussian/gauss_lc_may.npz',
+                  catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/may_5/gaussian/gaussian_lc_M_gt_1.129e+11Msol.npz',
                   )
 
 TonyLi_PhII = dict(cosmo_model = 'Planck15',
@@ -105,8 +105,7 @@ TonyLi_PhII = dict(cosmo_model = 'Planck15',
                   Omega_field = 538*u.deg**2,
                   do_Jysr = False,
                   Nfield = 4,
-                  catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/ngaussian/ngauss_lc_may.npz',
-
+                  catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/may_5/ngaussian/ngaussian_lc_mlambda10.npz',
                   )
 
 
@@ -185,7 +184,7 @@ Lichen_v2 = dict(model_type = 'ML',
                          Nfeeds = 120,
                          beam_FWHM = 48*u.arcsec,
                          Delta_nu = 60*u.GHz, # was 20 before, why?
-                         dnu = 1.11*u.GHz,
+                         dnu = 2.8*u.GHz,
                          tobs = 2000*u.hr,
                          Omega_field = 4*u.deg**2,
                          do_Jysr = True,
@@ -210,6 +209,25 @@ Lichen_v3 = dict(model_type = 'ML',
                          do_Jysr = True,
                          Nfield = 4,
                          catalogue_file = '/home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz'
+                         )
+
+Lichen_v4 = dict(model_type = 'ML',
+                         model_name = 'LichenCII_v3',
+                         model_par = {'zdex': 0.05, 'M0':(1.9*(10**9)),'Mmin':(2*(10**10)), 'alpha_MH1':0.74, 'alpha_LCII':0.017, 'BehrooziFile': 'sfr_reinterp.dat'},
+                         nu = 1897*u.GHz,
+                         nuObs = 400*u.GHz,
+                         Mmin = 1e10*u.Msun,
+                         Mmax = 1e14*u.Msun,
+                         Tsys_NEFD = 72.5*u.mJy*u.s**(1./2),
+                         Nfeeds = 120,
+                         beam_FWHM = 48*u.arcsec,
+                         Delta_nu = 40*u.GHz, # was 20 before, why?
+                         dnu = 1.11*u.GHz,
+                         tobs = 2000*u.hr,
+                         Omega_field = 4*u.deg**2,
+                         do_Jysr = True,
+                         Nfield = 4,
+                         catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/may_5/gaussian/gaussian_lc_M_gt_1.129e+11Msol.npz'
                          )
 
 

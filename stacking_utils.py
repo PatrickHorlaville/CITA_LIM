@@ -107,6 +107,7 @@ def lum(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     for i in range(nhalos):
     
         grid[i] = np.meshgrid(inb_mapx[i], inb_mapy[i], inb_mapz[i])
+        print(i)
         sigs[i] = pure_map[grid[i][0], grid[i][1], grid[i][2]]
         noisy[i]= noisy_map[grid[i][0], grid[i][1], grid[i][2]]
         

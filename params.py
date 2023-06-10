@@ -224,7 +224,7 @@ Lichen_v4 = dict(model_type = 'ML',
                          Delta_nu = 40*u.GHz, # was 20 before, why?
                          dnu = 1.11*u.GHz,
                          tobs = 2000*u.hr,
-                         Omega_field = 4*u.deg**2,
+                         Omega_field = 16*u.deg**2,
                          do_Jysr = True,
                          Nfield = 4,
                          catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/may_5/gaussian/gaussian_lc_M_gt_1.129e+11Msol.npz'

@@ -8,9 +8,20 @@ lim_sim = lim('Lichen_v4', doSim=True)
 # Be aware: make sure to adapt nuObs and Delta_nu to your lightcone
 # dnu for the amount of redshift slices
 
-t_obs = 100000 * u.hr
-lim_sim.update(tobs = t_obs) 
-lim_sim.update(catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/may_5/gaussian/gaussian_lc_M_gt_1.129e+11Msol.npz')
+t_obs = 2000 * u.hr
+
+lim_sim.update(model_par = {'zdex': 0.3,
+ 'M0': 1900000000.0,
+ 'Mmin': 20000000000,
+ 'alpha_MH1': 0.74,
+ 'alpha_LCII': 0.017,
+ 'BehrooziFile': 'sfr_reinterp.dat'}, 
+             tobs = t_obs,
+             nuObs = 400*u.GHz,
+             Delta_nu = 28*u.GHz,
+             Omega_field = 16*(u.deg**2),
+               catalogue_file = '/mnt/scratch-lustre/horlaville/nate_sims/june_9/ngaussian/ngauss_mlambda25_0.npz'
+            )
 
 # Lower bound of halo masses to be considered
 mass_cut = 2*(10**10) # in Solar masses
@@ -22,7 +33,7 @@ err = 0.03
 ind = 3
 
 # Size of the stacked map to be produced (n by n)
-n = 10
+n = 75
 
 # Size of the stacked map, in angular dimension
 ang_side = np.sqrt(lim_sim.Omega_field)

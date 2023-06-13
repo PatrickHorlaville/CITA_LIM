@@ -64,7 +64,7 @@ def halo_map(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     halo_mapy = np.linspace(halo_centpix_y - ((n - 1)/2), halo_centpix_y + ((n - 1)/2), n, axis = 1)
     halo_mapz = halo_centpix_z
     
-    npix_x, npix_y = lim_obj.mapinst.npix_x + 1, lim_obj.mapinst.npix_y + 1
+    npix_x, npix_y = lim_obj.mapinst.npix_x, lim_obj.mapinst.npix_y
     outb_x = halo_mapx >= npix_x
     outb_y = halo_mapy >= npix_y
     
@@ -107,7 +107,7 @@ def lum(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     for i in range(nhalos):
     
         grid[i] = np.meshgrid(inb_mapx[i], inb_mapy[i], inb_mapz[i])
-        print(i)
+        #print(i)
         sigs[i] = pure_map[grid[i][0], grid[i][1], grid[i][2]]
         noisy[i]= noisy_map[grid[i][0], grid[i][1], grid[i][2]]
         

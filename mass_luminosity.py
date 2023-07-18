@@ -358,7 +358,7 @@ def LichenCII_v3(Mvec, MLpar, z):
 
     M0 = MLpar['M0'] * u.Msun
     Mmin = MLpar['Mmin'] * u.Msun
-    alpha_MH1 = MLpar['alpha_MH1']
+    alpha_MH1 = MLpar['alpha_MH1'] # try different values and look for effects on relative entropy plot
     alpha_LCII = MLpar['alpha_LCII']
     zdex = MLpar['zdex']
    
@@ -382,6 +382,10 @@ def LichenCII_v3(Mvec, MLpar, z):
             SFR[ii] = 10.**logSFR_interp(logM[ii],z[ii])
     else:
         SFR = 10.**logSFR_interp(logM,z)
+   
+    # Checking for the effect of SFR variation on the CII luminosities:
+    # SFR = MLpar[sfr_frac]*SFR
+
 
     # Then, we compute the stellar mass for each halo using the prescription by Behroozi+2013 [code snippet from DTC]:
 
@@ -423,7 +427,7 @@ def LichenCII_v3(Mvec, MLpar, z):
         return Z_0 - (gamma/beta)*np.log10(1 + (stellar_m/M_0)**(-beta))
 
     # The ps_metal is the FMR but for the 'pseudo'-metallicity quantity described in Heintz+21; it's not the direct metallicity. It's defined as 12 + log(O/H).
-    # In solar metallicity, log(Z/Z_sol) = 0 when 12 + log(O/H) = 8.69, so 'real'Z = 10**('pseudo'Z - 8.69):
+    # In solar metallicity, log(Z/Z_sol) = 0 when 12 + log(O/H) = 8.779, so 'real'Z = 10**('pseudo'Z - 8.779):
 
     def metal(ps_m):
         return 10**(ps_m - 8.779)

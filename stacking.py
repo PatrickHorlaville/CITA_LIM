@@ -17,7 +17,7 @@ halo_zs = halo_zs[good_halo_zs]
 
 print('------------------------')
 print(' - The total forecast observing time has been set to', t_obs, '-')
-print(' - Redshift of selected slice is', round(map_zs[ind], 2), 'and accepted halos are in the redshift range [', round(map_zs[ind] - err, 2), ',', round(map_zs[ind] + err, 2), '] -')
+print(' - Redshift of selected slice is', round(map_zs[ind], 2), 'and accepted halos are in the redshift range [', round(map_zs[ind] - err, 2), ',', round(map_zs[ind] + err, 2), '], which accounts for', len(halo_xs), 'halos -')
 print(' - Stacked map is', n, 'by', n, 'which covers', stack_dim, 'deg by', stack_dim, 'deg -')
 print('------------------------')
 

@@ -8,6 +8,25 @@ from lim import lim
 matplotlib.rcParams.update({'font.size': 18,'figure.figsize':[8,7]}) 
 from scipy.ndimage import gaussian_filter
 
+def pix_res(beam_width, map_dim_deg, map_dim_pix):
+    
+    '''
+    
+    computes the pixel size corresponding to beaming the signal with a certain angle (beam_width) 
+    given the size of the map in degrees (map_dim_deg) and pixels (map_dim_pix) 
+    
+    beam_width; size of t
+    map_dim_pix in pixels
+    map_dim_deg in degrees
+    
+    '''
+    
+    ang_res = (beam_width.to(u.arcmin))/2.355
+    map_dim_deg.to(u.deg)
+    
+    
+    return ang_res/((map_dim_deg/map_dim_pix)*(60*u.arcmin/u.deg))
+
 
 
 def halo_centpix(lim_obj, halo_xpos, halo_ypos, halo_zpos):

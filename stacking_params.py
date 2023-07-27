@@ -11,17 +11,18 @@ lim_sim = lim('Lichen_v4', doSim=True)
 t_obs = 40000 * u.hr
 
 # [C II] example:
-lim_sim.update(model_par = {'zdex': 0.3,
+
+lim_sim.update(model_par = {'zdex': 0.4,
                             'M0': 1900000000.0,
                             'Mmin': 20000000000,
                             'alpha_MH1': 0.74,
-                            'alpha_LCII': 0.017,
+                            'alpha_LCII': 0.024,
                             'BehrooziFile': 'sfr_reinterp.dat'},
                tobs = t_obs,
                nuObs = 270*u.GHz,
                Delta_nu = 40*u.GHz,
                Omega_field = 4*(u.deg**2),
-               dnu = 1.11*u.GHz,
+               dnu = 2.8*u.GHz,
                catalogue_file = '/home/dongwooc/scratchspace/pprun_hiz_npz/COMAP_z5.8-7.9_960Mpc_seed_13819.npz'
             )
 
@@ -33,7 +34,9 @@ mass_cut = 2*(10**10) # in Solar masses
 err = 0.03
 
 # Index of the redshift map to be selected.
-ind = 17
+map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
+z_sel = 6
+ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)
 n = 50
@@ -42,3 +45,10 @@ n = 50
 ang_side = np.sqrt(lim_sim.Omega_field)
 nside = lim_sim.Nside
 stack_dim = round(n*(ang_side/nside).value, 2)
+
+# Size of beaming
+
+beam_width = 50*u.arcsec # 50'' typical for [C II] survey
+beam_res = int(round(pix_res(beam_width, stack_dim*u.deg, n).value, 0))
+
+

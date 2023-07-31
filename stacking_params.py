@@ -35,11 +35,11 @@ err = 0.03
 
 # Index of the redshift map to be selected.
 map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
-z_sel = 6
+z_sel = 6 # redshift of the selected stacked map. Will not be exactly that value, but the code will select the closest z-slice 
 ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)
-n = 50
+n = 3
 
 # Size of the stacked map, in angular dimension
 ang_side = np.sqrt(lim_sim.Omega_field)

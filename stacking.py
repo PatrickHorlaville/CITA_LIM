@@ -48,16 +48,12 @@ plt.ylabel(r'$Dec\ (Degrees)$')
 plt.colorbar(label = r'$[C_{II}]\ Luminosity\ (Jy/sr)$')
 
 
-plt.savefig('Stacking/jul26_270GHz_n50.png', bbox_inches = "tight")
+np.save('stack_ex.npy', pure_stack)
 
 plt.show()
 
-# Average over all lightcones:
 
-# for i in range(len(lightcones)):
-#    lim_sim.update(catalogue_file)
-
-
+    
 
 
 

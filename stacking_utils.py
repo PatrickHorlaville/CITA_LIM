@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import astropy.units as u
+from scipy import special
 
 from lim import lim
 
@@ -106,7 +107,7 @@ def inbound_halos(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
 
 
 
-def lum(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
+def lum_hod(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
 
     halo_mapx, halo_mapy, halo_mapz, inb = inbound_halos(lim_obj, n, halo_xpos, halo_ypos, halo_zpos)
     
@@ -132,7 +133,7 @@ def lum(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     sigs = np.reshape(sigs, (nhalos, n, n))
     noisy= np.reshape(noisy, (nhalos, n, n))
     
-    return sigs, noisy
+    return sigs, noisy, inb
 
 # Adding HOD functions:
 

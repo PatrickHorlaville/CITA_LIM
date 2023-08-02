@@ -4,16 +4,21 @@ plt.rcParams["mathtext.fontset"] = "dejavuserif"
 
 # Calculating luminosities
 
-thresh = lim_sim.halos.M > mass_cut
+halo_ms = lim_sim.halos.M
+
+mthresh = halo_ms > mass_cut
 
 map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
 
-halo_zs = lim_sim.halos.redshift[thresh]
-good_halo_zs = np.where(np.logical_and(halo_zs >= map_zs[ind] - err, halo_zs <= map_zs[ind] + err))
+halo_zs = lim_sim.halos.redshift[mthresh]
+good_halo_zs = np.where(np.logical_and(halo_zs >= z_sel - err, halo_zs <= z_sel + err))
 
-halo_xs = lim_sim.halos.ra[thresh][good_halo_zs]
-halo_ys = lim_sim.halos.dec[thresh][good_halo_zs]
+halo_xs = lim_sim.halos.ra[mthresh][good_halo_zs]
+halo_ys = lim_sim.halos.dec[mthresh][good_halo_zs]
 halo_zs = halo_zs[good_halo_zs]
+
+n_gal_tot = n_mh(halo_ms[mthresh][good_halo_zs], log_m_min, sigma_log_m, alph, dutyc)
+draws = np.random.poisson(n_gal_tot)
 
 print('------------------------')
 print(' - The total forecast observing time has been set to', t_obs, '-')
@@ -21,12 +26,13 @@ print(' - Redshift of selected slice is', round(map_zs[ind], 2), 'and accepted h
 print(' - The lightcone is in the redshift range z = [', round(np.min(map_zs), 3), ', ', round(np.max(map_zs), 3), '] -') 
 print(' - Stacked map is', n, 'by', n, 'which covers', stack_dim, 'deg by', stack_dim, 'deg -')
 print(' - We beam the stacked map with a width of', beam_width, ', which corresponds to a Gaussian filter of radius', beam_res, 'pixels - ')
+print(' - The poissonian draw has yielded', np.sum(draws), 'LBG galaxies among our', len(halo_xs), 'halos - ')
 print('------------------------')
 
 
 pure_map, noisy_map = lum(lim_sim, n, halo_xs, halo_ys, halo_zs)
 
-pure_stack, noisy_stack = np.nanmean(pure_map, axis = 0), np.nanmean(noisy_map, axis = 0)
+pure_stack, noisy_stack = np.average(pure_map, axis = 0, weights = draws), np.average(noisy_map, axis = 0, weights = draws)
 
 
 # Plotting
@@ -47,10 +53,10 @@ plt.xlabel(r'$RA\ (Degrees)$')
 plt.ylabel(r'$Dec\ (Degrees)$')
 plt.colorbar(label = r'$[C_{II}]\ Luminosity\ (Jy/sr)$')
 
-
-np.save('stack_ex.npy', pure_stack)
-
 plt.show()
+
+plt.savefig('Stacking/aug2_lbg_test.png', bbox_inches = 'tight')
+
 
 
     

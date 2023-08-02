@@ -31,15 +31,15 @@ lim_sim.update(model_par = {'zdex': 0.4,
 mass_cut = 2*(10**10) # in Solar masses
 
 # Error of acceptance on the redshift of the 2D map for surrounding halos
-err = 0.03
+err = 0.1
 
 # Index of the redshift map to be selected.
 map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
-z_sel = 6 # redshift of the selected stacked map. Will not be exactly that value, but the code will select the closest z-slice 
+z_sel = 5.9 # redshift of the selected stacked map. Will not be exactly that value, but the code will select the closest z-slice 
 ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)
-n = 3
+n = 20
 
 # Size of the stacked map, in angular dimension
 ang_side = np.sqrt(lim_sim.Omega_field)

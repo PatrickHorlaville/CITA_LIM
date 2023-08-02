@@ -135,4 +135,32 @@ def lum(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     return sigs, noisy
 
 
+def lum_hod(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
+
+    halo_mapx, halo_mapy, halo_mapz, inb = inbound_halos(lim_obj, n, halo_xpos, halo_ypos, halo_zpos)
+    
+    inb_mapx = halo_mapx[inb].astype(int)
+    inb_mapy = halo_mapy[inb].astype(int)
+    inb_mapz = halo_mapz[inb].astype(int)
+
+    nhalos = len(inb_mapx)
+    
+    pure_map = lim_obj.maps.value
+    noisy_map= lim_obj.noise_added_map
+    
+    grid = [0 for i in range(nhalos)]
+    sigs = [0 for i in range(nhalos)]
+    noisy= [0 for i in range(nhalos)]
+    
+    for i in range(nhalos):
+    
+        grid[i] = np.meshgrid(inb_mapx[i], inb_mapy[i], inb_mapz[i])
+        sigs[i] = pure_map[grid[i][0], grid[i][1], grid[i][2]]
+        noisy[i]= noisy_map[grid[i][0], grid[i][1], grid[i][2]]
+        
+    sigs = np.reshape(sigs, (nhalos, n, n))
+    noisy= np.reshape(noisy, (nhalos, n, n))
+    
+    return sigs, noisy
+
 

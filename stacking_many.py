@@ -52,8 +52,8 @@ for i in range(len(onlyfiles)):
     pure_map, noisy_map = lum(lim_sim, n, halo_xs, halo_ys, halo_zs)
     pure_stack, noisy_stack = np.nanmean(pure_map, axis = 0), np.nanmean(noisy_map, axis = 0)
     
-    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/stacks/sig/sig'+str(i)+'.npy', pure_stack)
-    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/stacks/for/for'+str(i)+'.npy', noisy_stack)
+    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/stacks_z6_6/sig/sig'+str(i)+'.npy', pure_stack)
+    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/stacks_z6_6/for/for'+str(i)+'.npy', noisy_stack)
     
     print('Finished loading', i, 'th stack!')
     

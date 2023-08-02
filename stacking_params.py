@@ -39,7 +39,7 @@ z_sel = 5.9 # redshift of the selected stacked map. Will not be exactly that val
 ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)
-n = 20
+n = 50
 
 # Size of the stacked map, in angular dimension
 ang_side = np.sqrt(lim_sim.Omega_field)
@@ -47,8 +47,16 @@ nside = lim_sim.Nside
 stack_dim = round(n*(ang_side/nside).value, 2)
 
 # Size of beaming
-
 beam_width = 50*u.arcsec # 50'' typical for [C II] survey
 beam_res = int(round(pix_res(beam_width, stack_dim*u.deg, n).value, 0))
+
+
+# HOD parameters
+log_m_min = 11.03 #
+sigma_log_m = 0.2
+alph = 1
+dutyc = 0.6
+
+
 
 

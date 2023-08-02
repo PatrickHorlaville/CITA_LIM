@@ -52,7 +52,7 @@ beam_res = int(round(pix_res(beam_width, stack_dim*u.deg, n).value, 0))
 
 
 # HOD parameters
-log_m_min = 11.03 #
+log_m_min = 11.03 # for LBGs at z = 5.9 from Harikane+2016 https://iopscience.iop.org/article/10.3847/0004-637X/821/2/123#apj523227s4 sec. 4.3
 sigma_log_m = 0.2
 alph = 1
 dutyc = 0.6

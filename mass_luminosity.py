@@ -361,6 +361,8 @@ def LichenCII_v3(Mvec, MLpar, z):
     alpha_MH1 = MLpar['alpha_MH1'] # try different values and look for effects on relative entropy plot
     alpha_LCII = MLpar['alpha_LCII']
     zdex = MLpar['zdex']
+    alpha_0 = MLpar['alpha0']
+    gamma_0 = MLpar['gamma0']
    
     # First, load the SFR for each halo following the prescription from the TonyLi model and using the data from the parameter 'BehrooziFile'.
 
@@ -394,7 +396,7 @@ def LichenCII_v3(Mvec, MLpar, z):
     nu = lambda z:np.exp(-4*a(z)**2)
     log10_eps = lambda z:-1.777-0.006*(a(z)-1)*nu(z)-0.119*(a(z)-1)
     log10_M1 = lambda z:11.514+(-1.793*(a(z)-1)-0.251*z)*nu(z)
-    alpha = lambda z:-1.412+0.731*(a(z)-1)*nu(z)
+    alpha = lambda z:alpha_0+0.731*(a(z)-1)*nu(z)
     delta = lambda z:3.508+(2.608*(a(z)-1)-0.043*z)*nu(z)
     gamma = lambda z:0.316+(1.319*(a(z)-1)+0.279*z)*nu(z)
     f = lambda x,z:-np.log10(10**(alpha(z)*x)+1)+delta(z)*(np.log10(1+np.exp(x)))**gamma(z)/(1+np.exp(10**(-x)))
@@ -412,7 +414,7 @@ def LichenCII_v3(Mvec, MLpar, z):
 
     # Then, retrieve metallicity with FMR from Heintz+2021 (from Curti+2020)
 
-    gamma = 0.31
+    gamma = gamma_0
     beta = 2.1
     m_0 = 10.11
     m_1 = 0.56

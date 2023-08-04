@@ -22,7 +22,7 @@ draws = np.random.poisson(n_gal_tot)
 
 print('------------------------')
 print(' - The total forecast observing time has been set to', t_obs, '-')
-print(' - Redshift of selected slice is', round(map_zs[ind], 2), 'and accepted halos are in the redshift range [', round(map_zs[ind] - err, 2), ',', round(map_zs[ind] + err, 2), '], which accounts for', len(halo_xs), 'halos -')
+print(' - The redshift of selected halos is', round(z_sel, 2), 'and accepted halos are in the redshift range [', round(z_sel - err, 2), ',', round(z_sel + err, 2), '], which accounts for', len(halo_xs), 'halos -')
 print(' - The lightcone is in the redshift range z = [', round(np.min(map_zs), 3), ', ', round(np.max(map_zs), 3), '] -') 
 print(' - Stacked map is', n, 'by', n, 'which covers', stack_dim, 'deg by', stack_dim, 'deg -')
 print(' - We beam the stacked map with a width of', beam_width, ', which corresponds to a Gaussian filter of radius', beam_res, 'pixels - ')
@@ -31,6 +31,7 @@ print('------------------------')
 
 
 pure_map, noisy_map = lum(lim_sim, n, halo_xs, halo_ys, halo_zs)
+pure_map, noisy_map = np.ma.masked_array(pure_map, np.isnan(pure_map)), np.ma.masked_array(noisy_map, np.isnan(noisy_map))
 
 pure_stack, noisy_stack = np.average(pure_map, axis = 0, weights = draws), np.average(noisy_map, axis = 0, weights = draws)
 

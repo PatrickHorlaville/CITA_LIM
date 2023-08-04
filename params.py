@@ -213,7 +213,7 @@ Lichen_v3 = dict(model_type = 'ML',
 
 Lichen_v4 = dict(model_type = 'ML',
                          model_name = 'LichenCII_v3',
-                         model_par = {'zdex': 0.05, 'M0':(1.9*(10**9)),'Mmin':(2*(10**10)), 'alpha_MH1':0.74, 'alpha_LCII':0.017, 'BehrooziFile': 'sfr_reinterp.dat'},
+                         model_par = {'zdex': 0.05, 'M0':(1.9*(10**9)),'Mmin':(2*(10**10)), 'alpha_MH1':0.74, 'alpha_LCII':0.017, 'alpha0':-1.412, 'gamma0':0.31, 'BehrooziFile': 'sfr_reinterp.dat'},
                          nu = 1897*u.GHz,
                          nuObs = 400*u.GHz,
                          Mmin = 1e10*u.Msun,

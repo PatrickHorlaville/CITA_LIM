@@ -17,6 +17,8 @@ lim_sim.update(model_par = {'zdex': 0.4,
                             'Mmin': 20000000000,
                             'alpha_MH1': 0.74,
                             'alpha_LCII': 0.024,
+                            'alpha0': -1.412,
+                            'gamma0': 0.31,
                             'BehrooziFile': 'sfr_reinterp.dat'},
                tobs = t_obs,
                nuObs = 270*u.GHz,
@@ -35,7 +37,7 @@ err = 0.1
 
 # Index of the redshift map to be selected.
 map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
-z_sel = 5.9 # redshift of the selected stacked map. Will not be exactly that value, but the code will select the closest z-slice 
+z_sel = 6 # redshift of the selected stacked map. Will not be exactly that value, but the code will select halos from closest z-slices 
 ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)

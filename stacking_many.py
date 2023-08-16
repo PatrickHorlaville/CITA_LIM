@@ -28,17 +28,19 @@ for i in range(len(onlyfiles)):
     
     print('Loading', i, 'th lightcone...')
     
-    thresh = lim_sim.halos.M > mass_cut
+    halo_ms = lim_sim.halos.M
+    
+    mthresh = halo_ms > mass_cut
     
     print('Finished loading', i, 'th lightcone! Now starting the stack computation...')
 
     map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
 
-    halo_zs = lim_sim.halos.redshift[thresh]
+    halo_zs = lim_sim.halos.redshift[mthresh]
     good_halo_zs = np.where(np.logical_and(halo_zs >= z_sel - err, halo_zs <= z_sel + err))
     
-    halo_xs = lim_sim.halos.ra[thresh][good_halo_zs]
-    halo_ys = lim_sim.halos.dec[thresh][good_halo_zs]
+    halo_xs = lim_sim.halos.ra[mthresh][good_halo_zs]
+    halo_ys = lim_sim.halos.dec[mthresh][good_halo_zs]
     halo_zs = halo_zs[good_halo_zs]
 
     print('------------------------')
@@ -47,13 +49,14 @@ for i in range(len(onlyfiles)):
     print(' - The lightcone is in the redshift range z = [', round(np.min(map_zs), 3), ', ', round(np.max(map_zs), 3), '] -') 
     print(' - Stacked map is', n, 'by', n, 'which covers', stack_dim, 'deg by', stack_dim, 'deg -')
     print(' - We beam the stacked map with a width of', beam_width, ', which corresponds to a Gaussian filter of radius', beam_res, 'pixels - ')
-    print('------------------------')
+
     
     pure_map, noisy_map, _ = lum_hod(lim_sim, n, halo_xs, halo_ys, halo_zs)
+   
     pure_stack, noisy_stack = np.nanmean(pure_map, axis = 0), np.nanmean(noisy_map, axis = 0)
     
-    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/stacks_z6_tobs2000h/sig/sig'+str(i)+'.npy', pure_stack)
-    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/stacks_z6_tobs2000h/for/for'+str(i)+'.npy', noisy_stack)
+    np.save('/mnt/scratch-lustre/horlaville/nuObs270/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/cii_z6/for_tobs2kh/for1/for'+str(i)+'.npy', noisy_stack)
+
     
     print('Finished loading', i, 'th stack!')
     

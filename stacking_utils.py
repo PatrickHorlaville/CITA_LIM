@@ -9,6 +9,25 @@ from lim import lim
 matplotlib.rcParams.update({'font.size': 18,'figure.figsize':[8,7]}) 
 from scipy.ndimage import gaussian_filter
 
+def own_noise(m, sign, sigm, pix=1.):
+    
+    '''
+    m is the limlam object
+    sign is the 3D cube of intensities
+    sigm is the noise level
+    pix is the pixelization blurring desired. default is 1.
+    '''
+    
+    sm_map = gaussian_filter(sign, [pix, pix, 0])
+    noise_sigma  = sigm
+    noise_map    = np.random.normal(0, 
+                                    noise_sigma.to(u.Jy/u.sr, equivalencies=u.brightness_temperature(m.nuObs)).value,
+                                    sign.shape)
+    # print(noise_sigma.to(u.Jy/u.sr).value)
+    sm_noise_map = sm_map + noise_map
+    
+    return sm_noise_map
+
 def pix_res(beam_width, map_dim_deg, map_dim_pix):
     
     '''
@@ -119,6 +138,38 @@ def lum_hod(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
     
     pure_map = lim_obj.maps.value
     noisy_map= lim_obj.noise_added_map
+    
+    grid = [0 for i in range(nhalos)]
+    sigs = [0 for i in range(nhalos)]
+    noisy= [0 for i in range(nhalos)]
+    
+    for i in range(nhalos):
+    
+        grid[i] = np.meshgrid(inb_mapx[i], inb_mapy[i], inb_mapz[i])
+        sigs[i] = pure_map[grid[i][0], grid[i][1], grid[i][2]]
+        noisy[i]= noisy_map[grid[i][0], grid[i][1], grid[i][2]]
+        
+    sigs = np.reshape(sigs, (nhalos, n, n))
+    noisy= np.reshape(noisy, (nhalos, n, n))
+    
+    return sigs, noisy, inb
+
+def lum_hod_corr(lim_obj, n, halo_xpos, halo_ypos, halo_zpos):
+    
+    sig_scale = 1.23
+
+    halo_mapx, halo_mapy, halo_mapz, inb = inbound_halos(lim_obj, n, halo_xpos, halo_ypos, halo_zpos)
+    
+    inb_mapx = halo_mapx[inb].astype(int)
+    inb_mapy = halo_mapy[inb].astype(int)
+    inb_mapz = halo_mapz[inb].astype(int)
+
+    nhalos = len(inb_mapx)
+    
+    pure_map = lim_obj.maps.value
+    pure_map = sig_scale*pure_map
+    
+    noisy_map= own_noise(lim_obj, pure_map, lim_obj.sigma_N)
     
     grid = [0 for i in range(nhalos)]
     sigs = [0 for i in range(nhalos)]

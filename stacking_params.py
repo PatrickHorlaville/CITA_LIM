@@ -37,7 +37,7 @@ err = 0.1
 
 # Index of the redshift map to be selected.
 map_zs = (lim_sim.mapinst.nu_rest/lim_sim.mapinst.nu_bincents) - 1
-z_sel = 5.9 # redshift of selected halos
+z_sel = 6 # redshift of selected halos
 ind = np.argmin(np.absolute(map_zs - z_sel))
 
 # Size of the stacked map to be produced (n by n)

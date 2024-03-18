@@ -66,8 +66,8 @@ for i in range(len(onlyfiles)):
 
     pure_stack, noisy_stack = np.average(pure_map, axis = 0, weights = sized_draws), np.average(noisy_map, axis = 0, weights = sized_draws)
     
-    pure_stack.dump('/mnt/scratch-lustre/horlaville/nuObs270_corr/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/LBGs_z5-9/sig1/sig'+str(i)+'.npy')
-    noisy_stack.dump('/mnt/scratch-lustre/horlaville/nuObs270_corr/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/LBGs_z5-9/for_tobs40kh/for0/for'+str(i)+'.npy')
+    #pure_stack.dump('/mnt/scratch-lustre/horlaville/nuObs270_corr/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/LBGs_z5-9/sig1/sig'+str(i)+'.npy')
+    noisy_stack.dump('/mnt/scratch-lustre/horlaville/nuObs270_corr/zdex04/alpha_cii_0-024/alpha_mhi_0-74/Mmin_2-10e10/alpha0_-1_412/gamma0_0_31/stacks/LBGs_z5-9/for_tobs2kh/for'+str(i)+'.npy')
     
     print('Finished loading', i, 'th stack!')
     

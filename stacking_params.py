@@ -8,7 +8,7 @@ lim_sim = lim('Lichen_v4', doSim=True)
 # Be aware: make sure to adapt nuObs and Delta_nu to your lightcone
 # dnu for the amount of redshift slices
 
-t_obs = 40000 * u.hr
+t_obs = 2000 * u.hr
 
 # [C II] example:
 
